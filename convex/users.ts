@@ -63,12 +63,12 @@ export const setUserOnline=internalMutation({
 export const getUser = query({
     args:{},
     handler:async (ctx,args)=>{
-        const data = ctx.auth.getUserIdentity();
+        const data = await ctx.auth.getUserIdentity();
         if(!data){
             throw new ConvexError("Unauthorized");
         }
         const users = await ctx.db.query("users").collect();
-        return users;
+        return users.filter((user)=>user.tokenIdentifier !== data.tokenIdentifier);
     }
 })
 
