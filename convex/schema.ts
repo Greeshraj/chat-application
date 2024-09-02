@@ -21,6 +21,6 @@ export default defineSchema({
         sender:v.string(),
         content:v.string(),
         messageType:v.union(v.literal("text"),v.literal("image"),v.literal("video")),
-    }).index("by_convesation",["conversation"]),
+    }).index("by_conversation",["conversation"]),
 
 });

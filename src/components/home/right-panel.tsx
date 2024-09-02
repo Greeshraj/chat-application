@@ -6,6 +6,7 @@ import MessageContainer from "./message-container";
 import ChatPlaceHolder from "@/components/home/chat-placeholder";
 import GroupMembersDialog from "./group-members-dialog";
 import { useConversationstore } from "@/store/chat-store";
+import { conversations } from "@/dummy-data/db";
 
 const RightPanel = () => {
 	const {selectedConversation,setSelectedConversation} = useConversationstore();
