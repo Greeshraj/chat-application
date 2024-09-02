@@ -5,12 +5,14 @@ import MessageInput from "./message-input";
 import MessageContainer from "./message-container";
 import ChatPlaceHolder from "@/components/home/chat-placeholder";
 import GroupMembersDialog from "./group-members-dialog";
+import { useConversationstore } from "@/store/chat-store";
 
 const RightPanel = () => {
-	const selectedConversation = true;
+	const {selectedConversation,setSelectedConversation} = useConversationstore();
 	if (!selectedConversation) return <ChatPlaceHolder />;
 
-	const conversationName = "John Doe";
+	const conversationName = selectedConversation.groupName || selectedConversation.name;
+	const conversationImage = selectedConversation.groupImage || selectedConversation.image;
 	const isGroup = true;
 
 	return (
@@ -20,14 +22,14 @@ const RightPanel = () => {
 				<div className='flex justify-between bg-gray-primary p-3'>
 					<div className='flex gap-3 items-center'>
 						<Avatar>
-							<AvatarImage src={"/placeholder.png"} className='object-cover' />
+							<AvatarImage src={conversationImage || "/placeholder.png"} className='object-cover' />
 							<AvatarFallback>
 								<div className='animate-pulse bg-gray-tertiary w-full h-full rounded-full' />
 							</AvatarFallback>
 						</Avatar>
 						<div className='flex flex-col'>
 							<p>{conversationName}</p>
-							{isGroup && <GroupMembersDialog />}
+							{selectedConversation.isGroup && <GroupMembersDialog selectedConversation={selectedConversation}/>}
 						</div>
 					</div>
 

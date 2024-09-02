@@ -1,5 +1,6 @@
 import {ConvexError, v} from 'convex/values'
 import { internalMutation,query } from './_generated/server'
+import { error } from 'console'
 
 export const createUser = internalMutation({
 
@@ -87,5 +88,27 @@ export const getMe = query({
         return user;
     }
 
+})
+
+export const getGroupMember = query({
+    args:{conversationId:v.id("conversations")},
+
+
+    handler:async (ctx,args)=>{
+        const identity = await ctx.auth.getUserIdentity();
+        if(!identity){
+            throw new ConvexError("UnAuthorized");
+        }
+        const conversation  = await ctx.db.query("conversations")
+        .filter((q)=>q.eq(q.field("_id"),args.conversationId)).first();
+        if(!conversation){
+            throw new ConvexError("Conversation Node found");
+        }
+
+        const users = await ctx.db.query("users").collect();
+        const groupMember = users.filter((user)=> conversation.participants.includes(user._id));
+        return groupMember;
+
+    }
 })
 
