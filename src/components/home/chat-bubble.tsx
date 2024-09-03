@@ -5,8 +5,8 @@ import Chatbubbleavatart from "./chatbubbleavatar";
 
 
 type messagetypeprops={
-	msg:any;
-	me:IMessage;
+	msg:IMessage;
+	me:any;
 }
 const ChatBubble = ({me,msg}:messagetypeprops) => {
 	const date = new Date(msg._creationTime);
