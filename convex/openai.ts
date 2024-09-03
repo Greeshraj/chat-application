@@ -5,8 +5,8 @@ import OpenAI from "openai";
 import { action } from "./_generated/server";
 import { v } from "convex/values";
 import { api } from "./_generated/api";
-
-const apiKey = "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";
+const apiKey="tempo";
+// const apiKey = "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";
 const openai = new OpenAI({ apiKey });
 
 export const chat = action({
