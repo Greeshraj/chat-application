@@ -1,6 +1,8 @@
+"use client"
 import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { promises } from "dns";
+import { api } from "./_generated/api";
 
 export const sendTextMessage = mutation({
     args:{
@@ -34,8 +36,41 @@ export const sendTextMessage = mutation({
             messageType:"text",
 
         });
+         
+        
+        if(args.content.startsWith("@gpt")){
+            console.log("yes there is message",args.content)
+            await ctx.scheduler.runAfter(0,api.genai.chat,{
+                messageBody:args.content,
+                conversation:args.conversation
+            })
+            
+
+        }
+
+
+        
 
     }
+})
+
+export const sendAigeneratedMessage = mutation({
+    args:{
+        content:v.string(),
+        conversation:v.id("conversations")
+    },
+    
+    handler:async(ctx,args)=>{
+        await ctx.db.insert("messages",{
+            sender:"ChatGPT",
+            content:args.content,
+            conversation:args.conversation,
+            messageType:"text",
+
+        });
+    }
+    
+
 })
 
 
@@ -53,7 +88,11 @@ export const getMessages= query({
         const userProfileCache = new Map();
 
         const messageswithsender = await Promise.all(
+
             messages.map(async (message) =>{
+                if(message.sender === "CHatGPT"){
+                    return {...message,sender:{name:"CHatGPT",image:"/bot.png"}}
+                }
                 let sender;
                 if(userProfileCache.has(message.sender)){
                     sender = userProfileCache.get(message.sender);

@@ -1,6 +1,7 @@
 import {ConvexError, v} from 'convex/values'
 import { internalMutation,query } from './_generated/server'
 import { error } from 'console'
+import { api } from './_generated/api'
 
 export const createUser = internalMutation({
 
@@ -21,7 +22,10 @@ export const createUser = internalMutation({
             isOnline:true,
 
         })
-    }
+         
+    },
+    
+    
 })
 
 export const updateUser=internalMutation({
@@ -72,6 +76,19 @@ export const getUser = query({
         return users.filter((user)=>user.tokenIdentifier !== data.tokenIdentifier);
     }
 })
+
+export const getUserDetailbyid = query({
+    args:{det:v.id("users")},
+    handler:async (ctx,args)=>{
+        const data = await ctx.auth.getUserIdentity();
+        if(!data){
+            throw new ConvexError("Unauthorized");
+        }
+        const users = await ctx.db.query("users").collect();
+        return users.filter((user)=>user._id === args.det);
+    }
+})
+
 
 export const getMe = query({
     args:{},

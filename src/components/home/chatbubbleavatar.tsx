@@ -4,14 +4,15 @@ import { Image } from "lucide-react"
 import { AvatarImage } from "../ui/avatar";
 
 type Chatbubbleavatarprops={
-  isGroup:boolean;
+  isGroup:boolean | undefined;
   message:IMessage;
   isMember:boolean;
+  fromAI:boolean;
 }
 
 
-const Chatbubbleavatart = ({isGroup,message,isMember}:Chatbubbleavatarprops) => {
-  if(!isGroup){
+const Chatbubbleavatart = ({isGroup,message,isMember,fromAI}:Chatbubbleavatarprops) => {
+  if(!isGroup && !fromAI){
     return null;
   }
   return (

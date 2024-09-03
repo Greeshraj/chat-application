@@ -13,6 +13,25 @@ import { useConvexAuth, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 
 const LeftPanel = () => {
+
+
+	const tempConversation = {
+		_id: "conversation1",
+		groupImage: null, // If it's a group conversation, set a group image URL here
+		image: "/images/default-avatar.png", // If it's an individual conversation, set an image URL here
+		groupName: null, // If it's a group conversation, set a group name here
+		name: "John Doe", // For individual conversations
+		lastMessage: {
+		  _id: "message1",
+		  messageType: "text", // Could be "text", "image", or "video"
+		  content: "Hey there! How's it going?", // Message content
+		  sender: "user1", // ID of the user who sent the last message
+		  _creationTime: new Date().toISOString(), // Timestamp of the last message
+		},
+		_creationTime: new Date().toISOString(), // Timestamp of when the conversation was created
+		isGroup: false, // Set to true if it's a group conversation
+		isOnline: true, // Online status of the conversation (for individual chats)
+	  };
 	// const conversations = [];
 	const {isAuthenticated} = useConvexAuth();
 	const conversations = useQuery(api.conversation.getMyConversation,
@@ -23,18 +42,8 @@ const LeftPanel = () => {
 			<div className='sticky top-0 bg-left-panel z-10'>
 				{/* Header */}
 				<div className='flex justify-between bg-gray-primary p-3 items-center'>
-					{/* <User size={24} />
-					 */}
+					 
 					 <UserButton/>
-					 {/* <SignedIn>
-						<SignOutButton/>
-					 </SignedIn>
-					 <SignedOut>
-						<SignInButton/>
-					 </SignedOut> */}
-
-
-
 					<div className='flex items-center gap-3'>
 						{isAuthenticated && < UserListDialog/>}
 						{/* <MessageSquareDiff size={20} /> TODO: This line will be replaced with <UserListDialog /> */}
@@ -61,7 +70,7 @@ const LeftPanel = () => {
 
 			{/* Chat List */}
 			<div className='my-3 flex flex-col gap-0 max-h-[80%] overflow-auto'>
-				 
+			{/* <Conversation conversation={tempConversation} /> */}
 				{conversations?.map((conversation)=>(
 					<Conversation key={conversation._id} conversation={conversation} />
 				))}

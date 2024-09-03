@@ -8,14 +8,38 @@ import { useConversationstore } from "@/store/chat-store";
 
 const Conversation = ({ conversation }: { conversation: any }) => {
 
-	const conversationImage = conversation.groupImage || conversation.image;
-	const conversationName = conversation.groupName || conversation.name;
-	const lastMessage = conversation.lastMessage;
-	const lastMessageType = lastMessage?.messageType;
+	let conversationImage = conversation.groupImage || conversation.image;
+	let conversationName = conversation.groupName || conversation.name;
+	let lastMessage = conversation.lastMessage;
+	let lastMessageType = lastMessage?.messageType;
 	const me = useQuery(api.users.getMe);
+	
+	// const {} = useQuery(api.users.getUser);
 	const {setSelectedConversation,selectedConversation} = useConversationstore();
 
-	console.log("my each",conversation)
+
+	// console.log("my each",conversation.participants)
+	if((conversation.participants).length>2){
+		console.log("i get group");
+	}else{
+		console.log(conversation.participants);
+		let othermemberid;
+		if(conversation?.participants[0]._id === me?._id){
+			othermemberid= conversation?.participants[0];
+		}else{
+			othermemberid = conversation?.participants[1];
+		}
+		// console.log("me",me?._id,"other ",othermemberid)
+		const otheruser = useQuery(api.users.getUserDetailbyid,{
+			det:othermemberid
+		})
+		 
+		if(otheruser){
+			// console.log(otheruser)
+			conversationName = otheruser[0].name;
+			conversationImage = otheruser[0].image;
+		}
+	}
 	return (
 		<>
 			<div className={`flex gap-2 items-center p-3 hover:bg-chat-hover cursor-pointer `}
