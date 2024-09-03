@@ -6,7 +6,6 @@ import { action } from "./_generated/server";
 import { v } from "convex/values";
 import { api } from "./_generated/api";
 const apiKey="tempo";
-// const apiKey = "";
 const openai = new OpenAI({ apiKey });
 
 export const chat = action({
