@@ -18,6 +18,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { useMutation, useQueries, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import toast, { Toaster } from "react-hot-toast";
+import { query } from "../../../convex/_generated/server";
 
 
 const UserListDialog = () => {
@@ -40,9 +41,16 @@ const UserListDialog = () => {
             const isGroup = selectedUsers.length>1;
             let conversationId;
             if(!isGroup){
+				console.log('Selected Users ID:', selectedUsers[0]);
+				console.log('Users Array:', users);
+
+				let anotherUserData = users?.find(user => user._id === selectedUsers[0]);
+				console.log(anotherUserData)
+
                 conversationId =  await createConversation({
                     participants:[...selectedUsers,me?._id!],
-                    isGroup:false
+                    isGroup:false,
+					groupName:anotherUserData?.name,
                 })
 
             }else{
@@ -160,7 +168,9 @@ const UserListDialog = () => {
 					))}
 				</div>
 				<div className='flex justify-between'>
+					<DialogClose>
 					<Button variant={"outline"}>Cancel</Button>
+					</DialogClose>
 					<Button
                     onClick={handleCreateConversation}
 						disabled={selectedUsers.length === 0 || (selectedUsers.length > 1 && !groupName) || isLoading}

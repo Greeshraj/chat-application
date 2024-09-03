@@ -19,27 +19,27 @@ const Conversation = ({ conversation }: { conversation: any }) => {
 
 
 	// console.log("my each",conversation.participants)
-	if((conversation.participants).length>2){
-		console.log("i get group");
-	}else{
-		console.log(conversation.participants);
-		let othermemberid;
-		if(conversation?.participants[0]._id === me?._id){
-			othermemberid= conversation?.participants[0];
-		}else{
-			othermemberid = conversation?.participants[1];
-		}
-		// console.log("me",me?._id,"other ",othermemberid)
-		const otheruser = useQuery(api.users.getUserDetailbyid,{
-			det:othermemberid
-		})
+	// if((conversation.participants).length>2){
+	// 	console.log("i get group");
+	// }else{
+	// 	console.log(conversation.participants);
+	// 	let othermemberid;
+	// 	if(conversation?.participants[0]._id === me?._id){
+	// 		othermemberid= conversation?.participants[0];
+	// 	}else{
+	// 		othermemberid = conversation?.participants[1];
+	// 	}
+	// 	// console.log("me",me?._id,"other ",othermemberid)
+	// 	const otheruser = useQuery(api.users.getUserDetailbyid,{
+	// 		det:othermemberid
+	// 	})
 		 
-		if(otheruser){
-			// console.log(otheruser)
-			conversationName = otheruser[0].name;
-			conversationImage = otheruser[0].image;
-		}
-	}
+	// 	if(otheruser){
+	// 		// console.log(otheruser)
+	// 		conversationName = otheruser[0].name;
+	// 		conversationImage = otheruser[0].image;
+	// 	}
+	// }
 	return (
 		<>
 			<div className={`flex gap-2 items-center p-3 hover:bg-chat-hover cursor-pointer `}

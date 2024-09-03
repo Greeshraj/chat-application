@@ -17,7 +17,7 @@ const RightPanel = () => {
 	const isGroup = selectedConversation.isGroup;
 
 	return (
-		<div className='w-3/4 flex flex-col'>
+		<div className='w-3/4 flex flex-col border-r rounded-[10px]'>
 			<div className='w-full sticky top-0 z-50'>
 				<div className='flex justify-between bg-gray-primary p-3'>
 					<div className='flex gap-3 items-center'>

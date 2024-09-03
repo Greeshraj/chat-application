@@ -38,7 +38,8 @@ const LeftPanel = () => {
 		isAuthenticated?undefined:"skip"
 	);
 	return (
-		<div className='w-1/4 border-gray-600 border-r'>
+		// <div className='w-1/4 border-gray-600 border-r'>
+		<div className='w-1/4 border-gray-600 border-r rounded-[10px]'>
 			<div className='sticky top-0 bg-left-panel z-10'>
 				{/* Header */}
 				<div className='flex justify-between bg-gray-primary p-3 items-center'>
@@ -47,7 +48,7 @@ const LeftPanel = () => {
 					<div className='flex items-center gap-3'>
 						{isAuthenticated && < UserListDialog/>}
 						{/* <MessageSquareDiff size={20} /> TODO: This line will be replaced with <UserListDialog /> */}
-						<ThemeSwitch />
+						 
 						{/* <LogOut size={20} className='cursor-pointer' /> */}
 					</div>
 				</div>
@@ -64,13 +65,12 @@ const LeftPanel = () => {
 							className='pl-10 py-2 text-sm w-full rounded shadow-sm bg-gray-primary focus-visible:ring-transparent'
 						/>
 					</div>
-					<ListFilter className='cursor-pointer' />
 				</div>
 			</div>
 
 			{/* Chat List */}
 			<div className='my-3 flex flex-col gap-0 max-h-[80%] overflow-auto'>
-			{/* <Conversation conversation={tempConversation} /> */}
+			 
 				{conversations?.map((conversation)=>(
 					<Conversation key={conversation._id} conversation={conversation} />
 				))}

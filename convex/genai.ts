@@ -20,11 +20,11 @@ export const chat = action({
       console.log("Message Body: ", args.messageBody);
       console.log("Conversation ID: ", args.conversation);
 
-     
+     const questionbody = args.messageBody + " answer only at max 2-3 sentence, beacuse you are in cahtting application."
       // Log the model instantiation
       console.log("Generated Model: ", model);
 
-      const result = await model.generateContent(args.messageBody);
+      const result = await model.generateContent(questionbody);
 
       // Log the raw result from the AI API
       console.log("AI Response: ", result);

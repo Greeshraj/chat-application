@@ -20,7 +20,7 @@ const config: Config = {
 			"chat-hover": "hsl(var(--chat-hover))",
 			"green-primary": "hsl(var(--green-primary))",
 			"green-secondary": "hsl(var(--green-secondary))",
-			"green-chat": "hsl(var(--green-chat))",
+			"blue-chat": "hsl(var(--blue-chat))",
 		  },
 		  backgroundImage: {
 			"chat-tile-light": "url('/bg-light.png')",

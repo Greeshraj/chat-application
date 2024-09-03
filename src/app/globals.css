@@ -18,7 +18,9 @@
 		--chat-hover: 180, 5%, 96%;
 
 		--green-primary: 167, 100%, 33%;
-		--green-chat: 111, 91%, 91%;
+		 
+		--blue-chat: 200, 80%, 90%;
+
 		/* CLASSES ADDED BY US */
 
 		--card: 0 0% 100%;
@@ -64,7 +66,7 @@
 
 		--green-primary: 167, 100%, 33%;
 		--green-secondary: 165, 100%, 39%;
-		--green-chat: 169, 100%, 18%;
+		--blue-chat: 200, 80%, 90%;
 
 		--gray-tertiary: 203, 22%, 21%;
 		/* CLASSES ADDED BY US */

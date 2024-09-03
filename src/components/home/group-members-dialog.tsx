@@ -31,9 +31,7 @@ const GroupMembersDialog = ({selectedConversation}:GroupMemberDialogProps) => {
 							{users?.map((user) => (
 								<div key={user._id} className={`flex gap-3 items-center p-2 rounded`}>
 									<Avatar className='overflow-visible'>
-										{user.isOnline && (
-											<div className='absolute top-0 right-0 w-2 h-2 bg-green-500 rounded-full border-2 border-foreground' />
-										)}
+										 
 										<AvatarImage src={user.image} className='rounded-full object-cover' />
 										<AvatarFallback>
 											<div className='animate-pulse bg-gray-tertiary w-full h-full rounded-full'></div>
@@ -45,7 +43,9 @@ const GroupMembersDialog = ({selectedConversation}:GroupMemberDialogProps) => {
 											<h3 className='text-md font-medium'>
 												{user.name || user.email.split("@")[0]}
 											</h3>
-											{user?._id === selectedConversation?.admin && <Crown size={16} className='text-yellow-400' />}
+											{user?._id === selectedConversation?.admin && (
+                											<strong style={{ color: 'black' }}>* Admin</strong> // Inline style for dark color
+              								)}
 										</div>
 									</div>
 								</div>
