@@ -1,5 +1,5 @@
 ### Chatterbox Application: Simple System Design Document
--Greeshraj Patairiya ,4th Year Undergraduate Student at Indian Isntitute of Technology Kharagour.(Roll - 21HS23010)
+-Greeshraj Patairiya ,4th Year Undergraduate student at Indian Institute of Technology Kharagpur. (Roll - 21HS23010)
 
 ---
 
