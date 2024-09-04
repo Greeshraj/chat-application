@@ -58,7 +58,9 @@
    - Create a ZegoCloud account for video calls. Add the required keys to your `.env.local` file.
 
 6. **Run the App:**
-   - Start the app with `npm run dev`. The app should now be running locally.
+   - Start the app with `npm run dev`. 
+   - Open new terminal /powershell and run with `npx convex dev`. The app should now be running locally.
+   - Keep in mind when you run the convex server, dont close it, keep it running.
 
 ---
 
