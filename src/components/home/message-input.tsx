@@ -10,13 +10,26 @@ import toast from "react-hot-toast";
 const MessageInput = () => {
 	const [msgText, setMsgText] = useState("");
 	const sendTexMsg = useMutation(api.messages.sendTextMessage);
+	const senTxtMsgBot = useMutation(api.messages.sendTextMessagetoBot);
 	const me = useQuery(api.users.getMe);
 	const {selectedConversation} = useConversationstore();
+	const botid= useQuery(api.users.getBotId);
 
+	let ischatbot = false;
+	if (selectedConversation && selectedConversation.participants.length > 0) {
+		console.log("see",selectedConversation?.groupName === "ChatBot ChatterBox" )
+		 ischatbot = selectedConversation?.groupName === "ChatBot ChatterBox" ;
+    	// ischatbot = selectedConversation[0].email === "chatterboxbot@temp.com";
+	} 
+	
 	const handleSendMesage=async (e:React.FormEvent)=>{
 		e.preventDefault();
 		try{
-			await sendTexMsg({content:msgText,conversation:selectedConversation!._id,sender:me!._id})
+			if(ischatbot){
+				await senTxtMsgBot({content:msgText,conversation:selectedConversation!._id,sender:me!._id})
+			}else{
+				await sendTexMsg({content:msgText,conversation:selectedConversation!._id,sender:me!._id})
+			}
 			setMsgText("");
 
 		}catch(err:any){

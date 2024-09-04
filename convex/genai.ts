@@ -20,7 +20,7 @@ export const chat = action({
       console.log("Message Body: ", args.messageBody);
       console.log("Conversation ID: ", args.conversation);
 
-     const questionbody = args.messageBody + " answer only at max 2-3 sentence, beacuse you are in cahtting application."
+     const questionbody = args.messageBody + " answer only at max 2-3 sentence."
       // Log the model instantiation
       console.log("Generated Model: ", model);
 

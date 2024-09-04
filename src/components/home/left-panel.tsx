@@ -1,42 +1,69 @@
 import { ListFilter, LogOut, MessageSquareDiff, Search, User } from "lucide-react";
 import { Input } from "../ui/input";
-import ThemeSwitch from "./theme-switch";
-
-// import { conversations } from "@/dummy-data/db";
- 
+import ThemeSwitch from "./theme-switch"; 
 import Conversation from "./converastion";
-
 import { UserButton } from "@clerk/nextjs";
 import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/clerk-react";
 import UserListDialog from "./user-list-dialog";
-import { useConvexAuth, useQuery } from "convex/react";
+import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { useState } from "react";
+import toast from "react-hot-toast";
+
 
 const LeftPanel = () => {
-
-
-	const tempConversation = {
-		_id: "conversation1",
-		groupImage: null, // If it's a group conversation, set a group image URL here
-		image: "/images/default-avatar.png", // If it's an individual conversation, set an image URL here
-		groupName: null, // If it's a group conversation, set a group name here
-		name: "John Doe", // For individual conversations
-		lastMessage: {
-		  _id: "message1",
-		  messageType: "text", // Could be "text", "image", or "video"
-		  content: "Hey there! How's it going?", // Message content
-		  sender: "user1", // ID of the user who sent the last message
-		  _creationTime: new Date().toISOString(), // Timestamp of the last message
-		},
-		_creationTime: new Date().toISOString(), // Timestamp of when the conversation was created
-		isGroup: false, // Set to true if it's a group conversation
-		isOnline: true, // Online status of the conversation (for individual chats)
-	  };
-	// const conversations = [];
 	const {isAuthenticated} = useConvexAuth();
 	const conversations = useQuery(api.conversation.getMyConversation,
 		isAuthenticated?undefined:"skip"
 	);
+	const me = useQuery(api.users.getMe);
+	const botdetails=useQuery(api.users.getBotId);
+	const createConversation = useMutation(api.conversation.createConversation);
+	const updateuser= useMutation(api.users.setUserBotconnected);
+	const [isLoading, setIsLoading] = useState(false);
+    const users = useQuery(api.users.getUser);
+	const botconnected =me?.isbotconnect;
+	// const botid="1234567890";
+
+	const handleCreateConversation = async () => {
+		setIsLoading(true);
+		try { 
+			const myId = me?._id;
+			if (!myId) {
+				throw new Error("User ID is not available.");
+			}
+			console.log("i am in")
+			let conversationId;
+			let botid;
+			if(botdetails){
+				botid = botdetails[0]?._id;
+			}
+			console.log(botid,myId);
+			
+			if(botid){
+				conversationId = await createConversation({
+					participants: [botid, myId],
+					isGroup: false,
+					groupName:"ChatBot ChatterBox",
+			});
+			if(conversationId != null){
+				await updateuser({
+					tokenIdentifier:me?.tokenIdentifier,
+				})
+			}
+			}else{
+				setIsLoading(false);
+				toast.error("Unable to create conversation with chatbot");
+			}
+
+		} catch (err) {
+			setIsLoading(false);
+			console.log(err);
+			toast.error("Failed to create conversation");
+		} finally {
+			setIsLoading(false);
+		}
+	}
 	return (
 		// <div className='w-1/4 border-gray-600 border-r'>
 		<div className='w-1/4 border-gray-600 border-r rounded-[10px]'>
@@ -66,6 +93,21 @@ const LeftPanel = () => {
 						/>
 					</div>
 				</div>
+				{!botconnected &&
+				<div className='p-3 flex items-center'>
+				<div className='relative h-10 mx-3 flex-1'>
+						<button className='pl-10 py-2 text-sm w-full rounded shadow-sm bg-gray-primary focus-visible:ring-transparent'
+						onClick={handleCreateConversation}
+						disabled={isLoading}
+						> {isLoading ? (
+							<div className='w-5 h-5 border-t-2 border-b-2 rounded-full animate-spin' />
+						) : (
+							"Chat With Bot"
+						)}
+						</button>
+				</div>
+				</div>
+				}
 			</div>
 
 			{/* Chat List */}

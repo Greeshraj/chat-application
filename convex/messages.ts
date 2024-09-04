@@ -38,22 +38,56 @@ export const sendTextMessage = mutation({
         });
          
         
-        if(args.content.startsWith("@gpt")){
+        if(args.content.startsWith("@bot")){
             console.log("yes there is message",args.content)
             await ctx.scheduler.runAfter(0,api.genai.chat,{
                 messageBody:args.content,
                 conversation:args.conversation
             })
-            
-
-        }
-
-
-        
-
+        }     
     }
 })
 
+
+export const sendTextMessagetoBot = mutation({
+    args:{
+        sender:v.string(),
+        content:v.string(),
+        conversation:v.id("conversations")
+    },
+    handler:async(ctx,args)=>{
+        const identity = await ctx.auth.getUserIdentity();
+        if(!identity){
+            throw new ConvexError("UN AUTHORIZED");
+        }
+        const user = await ctx.db.query("users").withIndex("by_tokenIdentifier",q=>q.eq("tokenIdentifier",identity.tokenIdentifier)).unique();
+        if(!user){
+            throw new ConvexError("User Not Found");
+
+        }
+        const conversation = await ctx.db.query("conversations")
+        .filter(q=>q.eq(q.field("_id"),args.conversation)).first();
+        if(!conversation){
+            throw new ConvexError("Conversaton Not Found");
+
+        }
+        if(!conversation.participants.includes(user._id)){
+            throw new ConvexError("You are not part of this group");
+        }
+        await ctx.db.insert("messages",{
+            sender:args.sender,
+            content:args.content,
+            conversation:args.conversation,
+            messageType:"text",
+
+        });
+
+            await ctx.scheduler.runAfter(0,api.genai.chat,{
+                messageBody:args.content,
+                conversation:args.conversation
+            })
+    }
+})
 export const sendAigeneratedMessage = mutation({
     args:{
         content:v.string(),
@@ -62,7 +96,7 @@ export const sendAigeneratedMessage = mutation({
     
     handler:async(ctx,args)=>{
         await ctx.db.insert("messages",{
-            sender:"ChatGPT",
+            sender:"AIBot",
             content:args.content,
             conversation:args.conversation,
             messageType:"text",

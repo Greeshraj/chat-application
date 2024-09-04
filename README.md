@@ -4,7 +4,7 @@
 
 #### **1. Overview**
 
-**Chatterbox** is a messaging app where users can chat with friends, either one-on-one or in groups. It also has an AI tool that responds to messages starting with `@gpt`. The app supports text, images, videos, and video calls.
+**Chatterbox** is a messaging app where users can chat with friends, either one-on-one or in groups. It also has an AI tool that responds to messages starting with `@bot`. The app supports text, images, videos, and video calls.
 
 ---
 
@@ -30,7 +30,7 @@
    Users send messages that are stored in Convex and updated in real-time for everyone in the chat.
 
 3. **Using AI:**  
-   Type `@gpt` before your message to get a response from the AI tool, powered by OpenAI.
+   Type `@bot` before your message to get a response from the AI tool, powered by OpenAI.
 
 4. **Sharing Files:**  
    Users can share images and videos, which are stored in Convex File Storage.

@@ -17,7 +17,7 @@ const ChatBubble = ({me,msg}:messagetypeprops) => {
 	const isMember = selectedConversation?.participants.includes(msg.sender?._id) || false;
 	const isGroup = selectedConversation?.isGroup || false;
 	const fromme = msg.sender?._id === me._id;
-	const fromAI = msg.sender?.name === "ChatGPT";
+	const fromAI = msg.sender?.name === "AIBot";
 	const bgClass = fromme ?"bg-blue-chat": !fromAI?"bg-white dark:bg-gray-primary" :"bg-blue-500 text-white";
 
 

@@ -382,7 +382,9 @@ const UserListDialog = () => {
 							placeholder='Group Name'
 							value={groupName}
 							onChange={(e) => setGroupName(e.target.value)}
+							style={{ border: '0.5px solid black' }}
 						/>
+
 						<Button className='flex gap-2' onClick={() => imgRef.current?.click()}>
 							<ImageIcon size={20} />
 							Group Image
@@ -405,9 +407,7 @@ const UserListDialog = () => {
 							}}
 						>
 							<Avatar className='overflow-visible'>
-								{user.isOnline && (
-									<div className='absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-foreground' />
-								)}
+							 
 
 								<AvatarImage src={user.image} className='rounded-full object-cover' />
 								<AvatarFallback>

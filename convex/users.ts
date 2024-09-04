@@ -1,5 +1,5 @@
 import {ConvexError, v} from 'convex/values'
-import { internalMutation,query } from './_generated/server'
+import { internalMutation,mutation,query } from './_generated/server'
 import { error } from 'console'
 import { api } from './_generated/api'
 
@@ -20,7 +20,8 @@ export const createUser = internalMutation({
             name:args.name,
             image:args.image,
             isOnline:true,
-
+            isbotconnect:false
+            
         })
          
     },
@@ -53,6 +54,18 @@ export const setUserOffline=internalMutation({
     }
 })
 
+export const setUserBotconnected=mutation({
+    args:{tokenIdentifier:v.string()},
+    handler:async(ctx,args)=>{
+        const user = await ctx.db.query("users").withIndex("by_tokenIdentifier",q=> q.eq("tokenIdentifier",args.tokenIdentifier)).unique();
+
+        if(!user){
+            throw new ConvexError("User Not found");
+        }
+        await ctx.db.patch(user._id,{isbotconnect:true});
+    }
+})
+
 export const setUserOnline=internalMutation({
     args:{tokenIdentifier:v.string()},
     handler:async(ctx,args)=>{
@@ -73,7 +86,8 @@ export const getUser = query({
             throw new ConvexError("Unauthorized");
         }
         const users = await ctx.db.query("users").collect();
-        return users.filter((user)=>user.tokenIdentifier !== data.tokenIdentifier);
+        const updatedusers= users.filter((user)=>user.tokenIdentifier !== data.tokenIdentifier);
+        return updatedusers.filter((user)=>user.name !== "ChatBot ChatterBox");
     }
 })
 
@@ -103,6 +117,24 @@ export const getMe = query({
 
         }
         return user;
+    }
+
+})
+
+export const getBotId = query({
+    args:{},
+    handler:async (ctx,args)=>{
+        const identity = await ctx.auth.getUserIdentity();
+        if(!identity){
+            throw new ConvexError("Unauthorized");
+        }
+        const user = await ctx.db.query("users").withIndex("by_tokenIdentifier",(q)=>q.eq("tokenIdentifier",identity.tokenIdentifier)).unique();
+        if(!user){
+            throw new ConvexError("User Not Found");
+        }
+        const updatedusers = await ctx.db.query("users").collect();
+        return updatedusers.filter((user)=>user.name === "ChatBot ChatterBox");
+        
     }
 
 })

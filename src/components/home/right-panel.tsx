@@ -15,7 +15,7 @@ const RightPanel = () => {
 	const conversationName = selectedConversation.groupName || selectedConversation.name;
 	const conversationImage = selectedConversation.groupImage || selectedConversation.image;
 	const isGroup = selectedConversation.isGroup;
-
+	
 	return (
 		<div className='w-3/4 flex flex-col border-r rounded-[10px]'>
 			<div className='w-full sticky top-0 z-50'>
