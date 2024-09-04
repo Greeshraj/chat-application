@@ -26,7 +26,7 @@ const MessageContainer = () => {
             <div className='mx-12 flex flex-col gap-3 h-full'>
                 {messages?.map((msg) => (
                     <div key={msg._id}>
-                        <ChatBubble me={me} msg={msg} />
+                        {me && <ChatBubble me={me} msg={msg} />}
                     </div>
                 ))}
                
