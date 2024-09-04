@@ -1,6 +1,3 @@
-
-
-
 import OpenAI from "openai";
 import { action } from "./_generated/server";
 import { v } from "convex/values";
