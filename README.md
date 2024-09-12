@@ -6,7 +6,7 @@
 
 #### **1. Overview**
 
-**Chatterbox** is a messaging app where users can chat with friends, either one-on-one or in groups. It also has an AI tool that responds to messages starting with `@bot`. The app supports text, images, videos, and video calls.
+**Chatterbox** is a messaging app where users can chat with friends, either one-on-one or in groups. It also has an AI tool that responds to messages starting with `@bot`. The app supports text messages and video calls.
 
 ---
 
